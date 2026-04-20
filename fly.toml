@@ -1,5 +1,5 @@
 app = "getza-backend"
-primary_region = "london"
+primary_region = "ams"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
