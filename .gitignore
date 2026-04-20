@@ -8,3 +8,5 @@ dist/
 .vercel/
 coverage/
 .DS_Store
+*.tsbuildinfo
+*.tsbuildinfo
