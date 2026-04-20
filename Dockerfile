@@ -1,21 +1,19 @@
-FROM node:22-alpine
+FROM node:22-slim
 
 WORKDIR /app
 
-# Copy only what we need for the build
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY package*.json ./
-COPY prisma ./prisma/
 COPY tsconfig.json ./
+COPY prisma ./prisma/
 COPY src ./src/
 
-# Build the TypeScript
 RUN npm install --include=dev && \
-    npx prisma generate && \
-    npm run build && \
-    chown -R node:node /app
-
-# Switch to non-root user for safety
-USER node
+    node node_modules/.bin/prisma generate && \
+    npm run build
 
 ENV NODE_ENV=production PORT=4000
 EXPOSE 4000
