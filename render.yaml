@@ -5,5 +5,5 @@ services:
     region: oregon
     plan: free
     autoDeploy: "no"
-    buildCommand: echo "Built" && npm install
-    startCommand: node -e "console.log('Started'); setInterval(()=>{}, 100)"
+    buildCommand: echo "Built"
+    startCommand: node -e "setInterval(()=>{}, 100000)"
