@@ -11,4 +11,5 @@ EXPOSE 4000
 ENV NODE_ENV=production
 ENV PORT=4000
 ENV DATABASE_URL="postgresql://neondb_owner:npg_3tazongv1ANh@ep-icy-hat-abt4jwpw-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require"
-CMD ["node", "-e", "console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'SET ('+process.env.DATABASE_URL.split('@')[1]+')' : 'NOT SET'); process.exit(0);"]
+# Test env access
+CMD ["sh", "-c", "echo 'DB_URL:' $DATABASE_URL | cut -d@ -f2"]
