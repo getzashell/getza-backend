@@ -6,20 +6,5 @@ services:
     plan: free
     autoDeploy: "yes"
     buildCommand: echo "Built"
-    startCommand: node -e "
-const http = require('http');
-const PORT = process.env.PORT || 4000;
-const server = http.createServer((req, res) => {
-  console.log('Request:', req.url, 'PORT:', PORT);
-  if (req.url === '/api/health') {
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify({ok:true, port:PORT}));
-  } else {
-    res.writeHead(200);
-    res.end('OK:'+PORT);
-  }
-});
-server.listen(Number(PORT), '0.0.0.0', () => console.log('Listening on 0.0.0.0:'+PORT));
-setInterval(()=>{}, 100000);
-"
+    startCommand: node --version
     healthCheckPath: /api/health
