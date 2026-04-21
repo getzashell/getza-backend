@@ -4,11 +4,12 @@ const { connectWithRetry } = require('./db');
 const { bootstrapAdmin } = require('./services/adminBootstrap');
 const { startDbHealthInterval } = require('./db/health');
 const { PrismaClient } = require('@prisma/client');
+import type { Request, Response } from 'express';
 
 const PORT = Number(process.env.PORT) || 4000;
 
 // Debug endpoint to test DB connection
-app.get('/api/db-test', async (req, res) => {
+app.get('/api/db-test', async (_req: Request, res: Response) => {
   const prisma = new PrismaClient({
     datasources: { db: { url: process.env.DATABASE_URL } }
   });
