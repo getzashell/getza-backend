@@ -6,5 +6,4 @@ services:
     plan: free
     autoDeploy: "yes"
     buildCommand: echo "Built"
-    startCommand: node --version
-    healthCheckPath: /api/health
+    startCommand: node --version && sleep 120
