@@ -3,8 +3,24 @@ const app = require('./app').default;
 const { connectWithRetry } = require('./db');
 const { bootstrapAdmin } = require('./services/adminBootstrap');
 const { startDbHealthInterval } = require('./db/health');
+const { PrismaClient } = require('@prisma/client');
 
 const PORT = Number(process.env.PORT) || 4000;
+
+// Debug endpoint to test DB connection
+app.get('/api/db-test', async (req, res) => {
+  const prisma = new PrismaClient({
+    datasources: { db: { url: process.env.DATABASE_URL } }
+  });
+  try {
+    await prisma.$connect();
+    await prisma.$disconnect();
+    res.json({ ok: true, msg: 'DB connected successfully' });
+  } catch (err: any) {
+    await prisma.$disconnect();
+    res.json({ ok: false, error: err.message, code: err.code });
+  }
+});
 
 process.on('uncaughtException', (err) => {
   console.error('Uncaught exception:', err);
