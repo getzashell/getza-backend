@@ -4,8 +4,10 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: node scripts/health-check.js
+    numInstances: 1
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: echo "Started successfully" && node dist/index.js
+    healthCheckPath: /
     envVars:
       - key: NODE_ENV
         value: production
