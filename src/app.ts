@@ -50,6 +50,19 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(attachSession);
 app.use(attachAnonUser);
+
+// Debug routes — registered before requireDb so they always work
+app.get('/api/debug-env', (_req, res) => {
+  res.json({
+    pid: process.pid,
+    nodeEnv: process.env.NODE_ENV,
+    port: process.env.PORT,
+    dbUrlSet: !!process.env.DATABASE_URL,
+    dbUrlHost: process.env.DATABASE_URL ? process.env.DATABASE_URL.split('@')[1]?.split('/')[0] : null,
+    nodeVersion: process.version,
+  });
+});
+
 app.use(requireDb);
 
 const logRoutes = (prefix: string, router: express.Router) => {
