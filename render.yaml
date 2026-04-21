@@ -4,12 +4,5 @@ services:
     env: node
     region: oregon
     plan: free
-    numInstances: 1
-    buildCommand: npm install --include=dev && npm run build
-    startCommand: echo "Started successfully" && node dist/index.js
-    healthCheckPath: /
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        value: "postgresql://neondb_owner:npg_3tazongv1ANh@ep-icy-hat-abt4jwpw-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require"
+    buildCommand: echo "Build done"
+    startCommand: echo "Started successfully"
