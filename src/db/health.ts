@@ -5,6 +5,12 @@ let checking = false;
 
 export const dbHealthy = () => isHealthy;
 
+export const markDbUnhealthy = (err: unknown) => {
+  const msg = err instanceof Error ? err.message : String(err);
+  console.warn('[DB] Marked unhealthy:', msg);
+  isHealthy = false;
+};
+
 export const checkDb = async (): Promise<boolean> => {
   if (checking) return isHealthy;
   checking = true;
@@ -14,8 +20,7 @@ export const checkDb = async (): Promise<boolean> => {
     checking = false;
     return true;
   } catch (err) {
-    console.warn('[DB] Health check failed:', err?.message);
-    isHealthy = false;
+    markDbUnhealthy(err);
     checking = false;
     return false;
   }
