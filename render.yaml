@@ -4,9 +4,9 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: echo "Build done" && sleep 5
-    startCommand: sleep 10 && echo "Started successfully"
-    healthCheckPath: /
+    buildCommand: echo "Build done"
+    startCommand: echo "Started successfully" && sleep 30
+    autoDeploy: "yes"
     envVars:
       - key: NODE_ENV
         value: production
