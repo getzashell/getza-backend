@@ -64,28 +64,6 @@ app.get('/api/debug-env', (_req, res) => {
   });
 });
 
-// Debug route that tries actual DB connection — registered before requireDb
-app.get('/api/debug-pg', async (_req, res) => {
-  const debugPrisma = new PrismaClient({
-    datasources: { db: { url: process.env.DATABASE_URL } },
-    log: ['error', 'warn'],
-  });
-  try {
-    const result = await debugPrisma.$queryRaw`SELECT version() as v`;
-    res.json({ ok: true, version: (result as any)[0]?.v });
-  } catch (err: any) {
-    res.json({
-      error: err.message,
-      code: err.code,
-      meta: err.meta,
-      name: err.name,
-      stack: err.stack?.split('\n')[0]
-    });
-  } finally {
-    await debugPrisma.$disconnect().catch(() => {});
-  }
-});
-
 app.use(requireDb);
 
 const logRoutes = (prefix: string, router: express.Router) => {
