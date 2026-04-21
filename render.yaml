@@ -5,8 +5,7 @@ services:
     region: oregon
     plan: free
     buildCommand: echo "Build done"
-    startCommand: echo "Started successfully" && sleep 30
-    autoDeploy: "yes"
+    startCommand: sleep 60
     envVars:
       - key: NODE_ENV
         value: production
