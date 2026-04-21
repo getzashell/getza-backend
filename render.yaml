@@ -4,5 +4,6 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: echo "Built"
-    startCommand: node -e "console.log('Node works'); setTimeout(()=>{}, 120000)"
+    autoDeploy: "no"
+    buildCommand: echo "Built" && npm install
+    startCommand: node -e "console.log('Started'); setInterval(()=>{}, 100)"
