@@ -33,6 +33,7 @@
     "@types/express": "^4.17.17",
     "@types/node": "^20.0.0",
     "@types/pg": "^8.6.6",
+    "esbuild": "^0.28.0",
     "prisma": "^5.10.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
