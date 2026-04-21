@@ -5,5 +5,6 @@ services:
     region: oregon
     plan: free
     autoDeploy: "no"
+    healthCheckPath: /healthz
     buildCommand: echo "Built"
-    startCommand: node -e "setInterval(()=>{}, 100000)"
+    startCommand: node -e "console.log('Starting...'); setInterval(()=>{}, 100000)"
