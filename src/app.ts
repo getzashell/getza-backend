@@ -20,6 +20,7 @@ import { errorHandler } from './middleware/errorHandler';
 import { getOrCreateAppSettings } from './services/settings';
 import { bootstrapAdmin } from './services/adminBootstrap';
 import { checkDb, dbHealthy, startDbHealthInterval } from './db/health';
+import { PrismaClient } from '@prisma/client';
 
 const root = path.resolve(__dirname, '../../');
 
@@ -61,6 +62,28 @@ app.get('/api/debug-env', (_req, res) => {
     dbUrlHost: process.env.DATABASE_URL ? process.env.DATABASE_URL.split('@')[1]?.split('/')[0] : null,
     nodeVersion: process.version,
   });
+});
+
+// Debug route that tries actual DB connection — registered before requireDb
+app.get('/api/debug-pg', async (_req, res) => {
+  const debugPrisma = new PrismaClient({
+    datasources: { db: { url: process.env.DATABASE_URL } },
+    log: ['error', 'warn'],
+  });
+  try {
+    const result = await debugPrisma.$queryRaw`SELECT version() as v`;
+    res.json({ ok: true, version: (result as any)[0]?.v });
+  } catch (err: any) {
+    res.json({
+      error: err.message,
+      code: err.code,
+      meta: err.meta,
+      name: err.name,
+      stack: err.stack?.split('\n')[0]
+    });
+  } finally {
+    await debugPrisma.$disconnect().catch(() => {});
+  }
 });
 
 app.use(requireDb);
