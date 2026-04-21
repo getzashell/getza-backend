@@ -12,4 +12,4 @@ services:
       - key: PORT
         value: "4000"
       - key: DATABASE_URL
-        sync: false
+        value: "postgresql://neondb_owner:npg_3tazongv1ANh@ep-icy-hat-abt4jwpw-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require"
