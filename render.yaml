@@ -4,5 +4,11 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: echo "Build done"
-    startCommand: echo "Started successfully"
+    buildCommand: echo "Build done" && sleep 5
+    startCommand: sleep 10 && echo "Started successfully"
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: "postgresql://neondb_owner:npg_3tazongv1ANh@ep-icy-hat-abt4jwpw-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require"
