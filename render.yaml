@@ -4,10 +4,5 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install --include=dev && npm run build
-    startCommand: node dist/index.js
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        value: "postgresql://neondb_owner:npg_3tazongv1ANh@ep-icy-hat-abt4jwpw-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require"
+    buildCommand: echo "Built"
+    startCommand: node -e "console.log('Node works'); setTimeout(()=>{}, 120000)"
