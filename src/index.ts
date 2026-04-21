@@ -21,7 +21,7 @@ async function start() {
     console.log('Connecting to DB...');
     const dbOk = await connectWithRetry();
     if (!dbOk) {
-      console.warn('DB connection failed — starting without DB connection');
+      console.warn('DB connection failed — starting server anyway');
     } else {
       console.log('DB connected');
     }
@@ -39,7 +39,7 @@ async function start() {
       process.exit(1);
     });
 
-    bootstrapAdmin().catch((err: any) => console.warn('Admin bootstrap error:', err.message));
+    bootstrapAdmin().catch((err: any) => console.warn('Admin bootstrap error:', err?.message));
     startDbHealthInterval();
   } catch (err) {
     console.error('Startup error:', err);
