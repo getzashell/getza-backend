@@ -42,10 +42,11 @@ process.on('unhandledRejection', (err: any) => {
   const dbOk = await connectWithRetry();
   if (dbOk) {
     console.log('DB connected');
-    startDbHealthInterval();
   } else {
-    console.warn('DB connection failed — server running without DB');
+    console.warn('DB connection failed — will retry in background');
   }
+  // ALWAYS start health interval - it will keep retrying
+  startDbHealthInterval();
 })();
 
 module.exports = { app, server };
