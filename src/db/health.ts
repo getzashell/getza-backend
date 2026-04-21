@@ -1,16 +1,9 @@
 import prisma from './index';
 
 let isHealthy = false;
-let lastError: { time: number; message: string } | null = null;
 let checking = false;
 
 export const dbHealthy = () => isHealthy;
-export const getLastDbError = () => lastError;
-
-export const markDbUnhealthy = (err: any) => {
-  isHealthy = false;
-  lastError = { time: Date.now(), message: err?.message || 'Unknown DB error' };
-};
 
 export const checkDb = async (): Promise<boolean> => {
   if (checking) return isHealthy;
@@ -21,7 +14,8 @@ export const checkDb = async (): Promise<boolean> => {
     checking = false;
     return true;
   } catch (err) {
-    markDbUnhealthy(err);
+    console.warn('[DB] Health check failed:', err?.message);
+    isHealthy = false;
     checking = false;
     return false;
   }
@@ -31,7 +25,6 @@ let intervalStarted = false;
 export const startDbHealthInterval = () => {
   if (intervalStarted) return;
   intervalStarted = true;
-  setInterval(() => {
-    checkDb().catch(() => {});
-  }, 30_000);
+  console.log('[DB] Health check interval started');
+  setInterval(() => { checkDb().catch(()=>{}); }, 30_000);
 };
