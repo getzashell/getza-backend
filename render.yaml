@@ -1,15 +1,24 @@
 services:
   - type: web
-    name: getza-backend
+    name: getza-backend-new
     env: node
     region: oregon
-    plan: starter
+    plan: free
     autoDeploy: "yes"
-    buildCommand: npm install --include=dev && npm run build && npx prisma generate
-    startCommand: node dist/index.js
+    buildCommand: echo "Built"
+    startCommand: node -e "
+const http = require('http');
+const server = http.createServer((req, res) => {
+  console.log('Request:', req.url);
+  if (req.url === '/api/health') {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify({ok:true}));
+  } else {
+    res.writeHead(200);
+    res.end('OK');
+  }
+});
+server.listen(3000, '0.0.0.0', () => console.log('Listening on 0.0.0.0:3000'));
+setInterval(()=>{}, 100000);
+"
     healthCheckPath: /api/health
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        value: "postgresql://neondb_owner:npg_3tazongv1ANh@ep-icy-hat-abt4jwpw-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require"
