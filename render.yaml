@@ -8,17 +8,18 @@ services:
     buildCommand: echo "Built"
     startCommand: node -e "
 const http = require('http');
+const PORT = process.env.PORT || 4000;
 const server = http.createServer((req, res) => {
-  console.log('Request:', req.url);
+  console.log('Request:', req.url, 'PORT:', PORT);
   if (req.url === '/api/health') {
     res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify({ok:true}));
+    res.end(JSON.stringify({ok:true, port:PORT}));
   } else {
     res.writeHead(200);
-    res.end('OK');
+    res.end('OK:'+PORT);
   }
 });
-server.listen(3000, '0.0.0.0', () => console.log('Listening on 0.0.0.0:3000'));
+server.listen(Number(PORT), '0.0.0.0', () => console.log('Listening on 0.0.0.0:'+PORT));
 setInterval(()=>{}, 100000);
 "
     healthCheckPath: /api/health
