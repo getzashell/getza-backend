@@ -9,14 +9,16 @@ const PORT = Number(process.env.PORT) || 4000;
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ 
     ok: true, 
+    ts: Date.now(),
     dbUrl: process.env.DATABASE_URL ? 
-      'DATABASE_URL set (' + process.env.DATABASE_URL.split('@')[1] + ')' : 
-      'DATABASE_URL NOT SET'
+      'set (' + process.env.DATABASE_URL.split('@')[1] + ')' : 
+      'NOT SET'
   });
 });
 
 app.get('/api/db-test', (req: Request, res: Response) => {
   res.json({
+    ts: Date.now(),
     env: process.env.NODE_ENV,
     dbUrl: process.env.DATABASE_URL ? 'set' : 'not set',
     dbUrlHost: process.env.DATABASE_URL ? process.env.DATABASE_URL.split('@')[1].split('/')[0] : 'none'
